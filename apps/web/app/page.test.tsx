@@ -1,43 +1,46 @@
 import {render, screen} from '@testing-library/react'
+import type {OfferSummaryDTO, PaginatedOffersDTO} from '@live-coding/mocks-scenarios'
+import {searchOffers} from '@/lib/api'
 import HomePage from './page'
 
+vi.mock('@/lib/api', () => ({searchOffers: vi.fn()}))
+
+const offer: OfferSummaryDTO = {
+  id: 'of-0001',
+  title: 'Desarrollador/a Frontend React',
+  companyName: 'Acme Tech',
+  province: {
+    id: 'barcelona',
+    label: 'Barcelona'
+  },
+  contractType: {
+    id: 'indefinido',
+    label: 'Indefinido'
+  },
+  salary: null,
+  publishedAt: '2026-10-31T00:00:00.000Z'
+}
+
+const result: PaginatedOffersDTO = {items: [offer], page: 1, pageSize: 10, total: 1, totalPages: 1}
+
 describe('HomePage', () => {
-  it('explains the exercise and what will be valued', () => {
-    render(<HomePage />)
-
-    expect(screen.getByRole('heading', {level: 1, name: /buscador de ofertas/i})).toBeInTheDocument()
-    expect(screen.getByText(/arquitectura testeable y mantenible/i)).toBeInTheDocument()
-    expect(screen.getByText(/funcionalidades server-side de Next.js/i)).toBeInTheDocument()
+  beforeEach(() => {
+    vi.mocked(searchOffers).mockResolvedValue(result)
   })
 
-  it('lists the 3 filters to implement', () => {
-    render(<HomePage />)
+  it('searches offers without filters', async () => {
+    render(await HomePage())
 
-    expect(screen.getByText('Texto libre')).toBeInTheDocument()
-    expect(screen.getByText('Provincia')).toBeInTheDocument()
-    expect(screen.getByText('Tipo de contrato')).toBeInTheDocument()
+    expect(searchOffers).toHaveBeenCalledWith()
   })
 
-  it('lists the extras that add points, including dockerizing for Kubernetes', () => {
-    render(<HomePage />)
+  it('lists title, company, province and contract type of each offer', async () => {
+    render(await HomePage())
 
-    expect(screen.getByRole('heading', {name: /extras que suman puntos/i})).toBeInTheDocument()
-    expect(screen.getByText(/dockerizar la aplicación.*kubernetes/i)).toBeInTheDocument()
-  })
-
-  it('ends with the questions about client state management and caching', () => {
-    render(<HomePage />)
-
-    expect(screen.getByRole('heading', {name: /preguntas para resolver al final/i})).toBeInTheDocument()
-    expect(screen.getByText(/gestionarías el estado en cliente/i)).toBeInTheDocument()
-    expect(screen.getByText(/cachearías y dónde/i)).toBeInTheDocument()
-  })
-
-  it('requires Tailwind for the styles and offers design extras', () => {
-    render(<HomePage />)
-
-    expect(screen.getByRole('heading', {name: /estilos: usa tailwind/i})).toBeInTheDocument()
-    expect(screen.getByText('Diseño y CSS')).toBeInTheDocument()
-    expect(screen.getByText(/modo oscuro con prefers-color-scheme/i)).toBeInTheDocument()
+    const item = screen.getByRole('listitem')
+    expect(item).toHaveTextContent('Desarrollador/a Frontend React')
+    expect(item).toHaveTextContent('Acme Tech')
+    expect(item).toHaveTextContent('Barcelona')
+    expect(item).toHaveTextContent('Indefinido')
   })
 })
