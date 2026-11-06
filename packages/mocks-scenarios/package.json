@@ -1,0 +1,27 @@
+{
+  "name": "@live-coding/mocks-scenarios",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./searchOffers": "./src/fixtures/searchOffers.ts"
+  },
+  "sideEffects": [
+    "src/index.ts",
+    "src/mocks/**/*.ts"
+  ],
+  "scripts": {
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src --max-warnings 0",
+    "test": "vitest run --passWithNoTests"
+  },
+  "devDependencies": {
+    "@live-coding/eslint-config": "workspace:*",
+    "@live-coding/typescript-config": "workspace:*",
+    "@types/node": "catalog:",
+    "eslint": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

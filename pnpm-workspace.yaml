@@ -1,0 +1,45 @@
+packages:
+  - 'apps/*'
+  - 'packages/*'
+  - 'qa/*'
+
+allowBuilds:
+  '@swc/core': true
+  esbuild: true
+  sharp: true
+  turbo: true
+  unrs-resolver: true
+
+publicHoistPattern:
+  - '*eslint*'
+  - '*prettier*'
+  - '@playwright/test'
+
+preferWorkspacePackages: true
+saveWorkspaceProtocol: 'workspace'
+autoInstallPeers: false
+loglevel: warn
+
+catalog:
+  vitest: ^4.1.9
+  '@testing-library/jest-dom': ^7.0.1
+  '@testing-library/react': ^16.3.3
+  '@testing-library/user-event': ^14.6.8
+  '@testing-library/dom': ^10.4.2
+  '@playwright/test': ^1.64.1
+  typescript: ^6.0.3
+  '@types/node': ^22.19.21
+  tsdown: ^0.23.4
+  tsx: ^4.23.15
+  eslint: ^9.39.5
+  zod: ^4.6.7
+  next: ^16.4.3
+  '@next/eslint-plugin-next': ^16.4.3
+  react: ^19.3.1
+  react-dom: ^19.3.1
+  '@types/react': ^19.3.0
+  '@types/react-dom': ^19.3.0
+  tailwindcss: ^4.3.3
+  '@tailwindcss/postcss': ^4.3.3
+  postcss: ^8.5.32
+  jsdom: ^30.1.3

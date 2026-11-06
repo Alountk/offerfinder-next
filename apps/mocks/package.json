@@ -1,0 +1,30 @@
+{
+  "name": "@live-coding/mocks",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsdown",
+    "dev": "(lsof -ti:${MOCKS_PORT:-5001} | xargs kill -9) 2>/dev/null; PORT=${MOCKS_PORT:-5001} tsx watch src/server.ts",
+    "start": "node --enable-source-maps dist/server.mjs",
+    "clean": "rm -rf dist node_modules scenarios-config.*.json",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src --max-warnings 0"
+  },
+  "dependencies": {
+    "@live-coding/mocks-scenarios": "workspace:*",
+    "cors": "^2.8.6",
+    "express": "^5.3.0"
+  },
+  "devDependencies": {
+    "@live-coding/eslint-config": "workspace:*",
+    "@live-coding/typescript-config": "workspace:*",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "catalog:",
+    "eslint": "catalog:",
+    "tsdown": "catalog:",
+    "tsx": "catalog:",
+    "typescript": "catalog:"
+  }
+}

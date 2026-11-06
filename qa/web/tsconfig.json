@@ -1,0 +1,5 @@
+{
+  "extends": "@live-coding/typescript-config/base",
+  "compilerOptions": {"noEmit": true, "module": "ESNext", "moduleResolution": "Bundler", "types": ["node"]},
+  "include": ["**/*.ts"]
+}

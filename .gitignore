@@ -1,0 +1,49 @@
+# dependencies
+node_modules/
+.pnpm-store/
+.pnp.*
+
+# builds
+.next/
+out/
+dist/
+build/
+*.tsbuildinfo
+next-env.d.ts
+
+# turborepo
+.turbo/
+
+# testing
+coverage/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# environment (keep the *.example files)
+.env
+.env.*
+!.env.example
+
+# mock server local scenario overrides
+apps/mocks/scenarios-config*.json
+
+# logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# editors / tooling
+.idea/
+.vscode/
+.fleet/
+*.swp
+.claude/settings.local.json
+*.pem

@@ -1,0 +1,15 @@
+@import 'tailwindcss';
+
+/*
+ * Design tokens. Tailwind 4 is configured from CSS: anything defined in @theme becomes a utility
+ * (e.g. --color-brand -> bg-brand / text-brand, --spacing-gutter -> p-gutter).
+ * Add your own tokens here instead of scattering raw values through the components.
+ *
+ * Dark mode: the `dark:` variant follows `prefers-color-scheme` by default. To toggle it with a class instead, add:
+ *   @custom-variant dark (&:where(.dark, .dark *));
+ */
+@theme {
+  --color-brand: #0b4dd0;
+  --color-brand-foreground: #ffffff;
+  --font-sans: ui-sans-serif, system-ui, sans-serif;
+}

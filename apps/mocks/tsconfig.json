@@ -1,0 +1,13 @@
+{
+  "extends": "@live-coding/typescript-config/base",
+  "compilerOptions": {
+    "types": ["node"],
+    "outDir": "dist",
+    "skipLibCheck": true,
+    "noEmit": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler"
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["dist", "node_modules"]
+}
