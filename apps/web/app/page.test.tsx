@@ -23,19 +23,29 @@ const offer: OfferSummaryDTO = {
 
 const result: PaginatedOffersDTO = {items: [offer], page: 1, pageSize: 10, total: 1, totalPages: 1}
 
+async function renderPage(searchParams: Record<string, string | string[] | undefined> = {}) {
+  render(await HomePage({searchParams: Promise.resolve(searchParams)}))
+}
+
 describe('HomePage', () => {
   beforeEach(() => {
     vi.mocked(searchOffers).mockResolvedValue(result)
   })
 
-  it('searches offers without filters', async () => {
-    render(await HomePage())
+  it('searches offers without filters when the URL has none', async () => {
+    await renderPage()
 
-    expect(searchOffers).toHaveBeenCalledWith()
+    expect(searchOffers).toHaveBeenCalledWith({})
+  })
+
+  it('shows the filters populated from the URL and the catalogs', async () => {
+    await renderPage({q: 'react'})
+
+    expect(screen.getByRole('searchbox', {name: /texto/i})).toHaveValue('react')
   })
 
   it('lists title, company, province and contract type of each offer', async () => {
-    render(await HomePage())
+    await renderPage()
 
     const item = screen.getByRole('listitem')
     expect(item).toHaveTextContent('Desarrollador/a Frontend React')

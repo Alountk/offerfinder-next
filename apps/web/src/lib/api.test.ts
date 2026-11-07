@@ -31,6 +31,16 @@ describe('searchOffers', () => {
 
     expect(lastRequestUrl().href).toBe(`${API_BASE_URL}/offers`)
   })
+
+  it('send search param as a query string value', async () => {
+    fetchMock.mockResolvedValue(jsonResponse(page))
+
+    await searchOffers({q: 'react dev'})
+
+    expect(Object.fromEntries(lastRequestUrl().searchParams)).toEqual({
+      q: 'react dev'
+    })
+  })
 })
 
 describe('errors', () => {

@@ -1,6 +1,8 @@
 import 'server-only'
 import type {PaginatedOffersDTO} from '@live-coding/mocks-scenarios'
 import {API_BASE_URL} from './config'
+import {toQueryString} from './queryString'
+import { SearchOffersParams } from '@live-coding/mocks-scenarios/searchOffers'
 
 export class ApiError extends Error {
   readonly status: number
@@ -18,6 +20,6 @@ async function request<T>(path: string): Promise<T> {
   return (await response.json()) as T
 }
 
-export function searchOffers(): Promise<PaginatedOffersDTO> {
-  return request(`/offers`)
+export function searchOffers(params: SearchOffersParams = {}): Promise<PaginatedOffersDTO> {
+  return request(`/offers${toQueryString({...params})}`)
 }

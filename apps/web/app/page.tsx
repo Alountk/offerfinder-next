@@ -1,11 +1,19 @@
+import {SearchFilters} from '@/components/SearchFilters'
 import {searchOffers} from '@/lib/api'
+import {parseSearchParams, RawSearchParams} from '@/lib/searchParams'
 
-export default async function HomePage() {
-  const {items} = await searchOffers()
+interface HomePageProps {
+  searchParams: Promise<RawSearchParams>
+}
+
+export default async function HomePage({searchParams}: HomePageProps) {
+  const filters = parseSearchParams(await searchParams)
+  const {items} = await searchOffers(filters)
 
   return (
     <main className="mx-auto max-w-4xl space-y-6 px-6 py-12">
       <h1 className="text-3xl font-bold">Ofertas de empleo</h1>
+      <SearchFilters values={filters} />
       <ul className="divide-y rounded border">
         {items.map(offer => (
           <li key={offer.id} className="space-y-1 px-4 py-3">
