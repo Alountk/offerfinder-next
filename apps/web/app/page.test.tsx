@@ -80,4 +80,27 @@ describe('HomePage', () => {
 
     expect(screen.queryByRole('navigation', {name: /paginación/i})).not.toBeInTheDocument()
   })
+
+  it('shows a message instead of the list when there are no results', async () => {
+    vi.mocked(searchOffers).mockResolvedValue({...result, items: [], total: 0, totalPages: 0})
+
+    await renderPage({q: 'nothing'})
+
+    expect(screen.getByText(/no hay ofertas/i)).toBeInTheDocument()
+    expect(screen.queryByRole('list')).not.toBeInTheDocument()
+  })
+
+  it('keeps the filters available when there are no results', async () => {
+    vi.mocked(searchOffers).mockResolvedValue({...result, items: [], total: 0, totalPages: 0})
+
+    await renderPage({q: 'nothing'})
+
+    expect(screen.getByRole('searchbox', {name: /texto/i})).toHaveValue('nothing')
+  })
+
+  it('does not show the empty message when there are results', async () => {
+    await renderPage()
+
+    expect(screen.queryByText(/no hay ofertas/i)).not.toBeInTheDocument()
+  })
 })
