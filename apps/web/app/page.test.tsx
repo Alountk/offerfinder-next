@@ -59,4 +59,25 @@ describe('HomePage', () => {
     expect(item).toHaveTextContent('Barcelona')
     expect(item).toHaveTextContent('Indefinido')
   })
+
+  it('requests the page found in the URL', async () => {
+    await renderPage({q: 'react', page: '2'})
+
+    expect(searchOffers).toHaveBeenCalledWith({q: 'react', page: 2})
+  })
+
+  it('links to the neighbouring pages keeping the filters', async () => {
+    vi.mocked(searchOffers).mockResolvedValue({...result, page: 2, totalPages: 3})
+
+    await renderPage({q: 'react', page: '2'})
+
+    expect(screen.getByRole('link', {name: /anterior/i})).toHaveAttribute('href', '/?q=react&page=1')
+    expect(screen.getByRole('link', {name: /siguiente/i})).toHaveAttribute('href', '/?q=react&page=3')
+  })
+
+  it('shows no pagination when all the results fit in one page', async () => {
+    await renderPage()
+
+    expect(screen.queryByRole('navigation', {name: /paginación/i})).not.toBeInTheDocument()
+  })
 })

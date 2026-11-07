@@ -1,3 +1,4 @@
+import {Pagination} from '@/components/Pagination'
 import {SearchFilters} from '@/components/SearchFilters'
 import {getContractTypes, getProvinces, searchOffers} from '@/lib/api'
 import {parseSearchParams, RawSearchParams} from '@/lib/searchParams'
@@ -8,7 +9,7 @@ interface HomePageProps {
 
 export default async function HomePage({searchParams}: HomePageProps) {
   const filters = parseSearchParams(await searchParams)
-  const [{items}, provinces, contractTypes] = await Promise.all([
+  const [{items, page, totalPages}, provinces, contractTypes] = await Promise.all([
     searchOffers(filters),
     getProvinces(),
     getContractTypes()
@@ -29,6 +30,7 @@ export default async function HomePage({searchParams}: HomePageProps) {
           </li>
         ))}
       </ul>
+      <Pagination page={page} totalPages={totalPages} filters={filters} />
     </main>
   )
 }
