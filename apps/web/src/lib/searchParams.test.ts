@@ -29,8 +29,10 @@ describe('firstParamValue', () => {
 
 describe('parseSearchParams', () => {
   it('maps q, province and contractType', () => {
-    expect(parseSearchParams({q: 'react'})).toEqual({
-      q: 'react'
+    expect(parseSearchParams({q: 'react', province: '28', contractType: 'indefinido'})).toEqual({
+      q: 'react',
+      province: '28',
+      contractType: 'indefinido'
     })
   })
 
@@ -39,8 +41,9 @@ describe('parseSearchParams', () => {
   })
 
   it('cleans every filter and drops the ones left empty', () => {
-    expect(parseSearchParams({q: '  react  '})).toEqual({
-      q: 'react'
+    expect(parseSearchParams({q: '  react  ', province: ['28', '08'], contractType: '   '})).toEqual({
+      q: 'react',
+      province: '28'
     })
   })
 

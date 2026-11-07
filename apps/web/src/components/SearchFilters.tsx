@@ -1,11 +1,38 @@
 import Form from 'next/form'
 import type {OfferFilters} from '@/lib/searchParams'
+import {CatalogItem} from '@live-coding/mocks-scenarios'
 
 interface SearchFiltersProps {
+  provinces: CatalogItem[]
+  contractTypes: CatalogItem[]
   values: OfferFilters
 }
 
-export function SearchFilters({values}: SearchFiltersProps) {
+interface CatalogSelectProps {
+  label: string
+  name: string
+  emptyLabel: string
+  items: CatalogItem[]
+  value: string | undefined
+}
+
+function CatalogSelect({label, name, emptyLabel, items, value}: CatalogSelectProps) {
+  return (
+    <label className="flex flex-col gap-1 text-sm">
+      {label}
+      <select name={name} defaultValue={value ?? ''} className="rounded border px-2 py-1">
+        <option value="">{emptyLabel}</option>
+        {items.map(item => (
+          <option key={item.id} value={item.id}>
+            {item.label}
+          </option>
+        ))}
+      </select>
+    </label>
+  )
+}
+
+export function SearchFilters({provinces, contractTypes, values}: SearchFiltersProps) {
   return (
     <Form action="/" className="flex flex-wrap items-end gap-4">
       <label className="flex flex-col gap-1 text-sm">
@@ -18,6 +45,14 @@ export function SearchFilters({values}: SearchFiltersProps) {
           className="rounded border px-2 py-1"
         />
       </label>
+      <CatalogSelect label="Provincia" name="province" emptyLabel="Todas" items={provinces} value={values.province} />
+      <CatalogSelect
+        label="Tipo de contrato"
+        name="contractType"
+        emptyLabel="Todos"
+        items={contractTypes}
+        value={values.contractType}
+      />
       <button type="submit" className="rounded bg-gray-900 px-4 py-1 text-white">
         Buscar
       </button>

@@ -1,5 +1,5 @@
 import type {PaginatedOffersDTO} from '@live-coding/mocks-scenarios'
-import {ApiError, searchOffers} from './api'
+import {ApiError, getContractTypes, getProvinces, searchOffers} from './api'
 import {API_BASE_URL} from './config'
 
 const fetchMock = vi.fn<typeof fetch>()
@@ -35,11 +35,33 @@ describe('searchOffers', () => {
   it('send search param as a query string value', async () => {
     fetchMock.mockResolvedValue(jsonResponse(page))
 
-    await searchOffers({q: 'react dev'})
+    await searchOffers({q: 'react dev', province: '28', contractType: 'indefinido'})
 
     expect(Object.fromEntries(lastRequestUrl().searchParams)).toEqual({
-      q: 'react dev'
+      q: 'react dev',
+      province: '28',
+      contractType: 'indefinido'
     })
+  })
+})
+
+describe('catalogs', () => {
+  const items = [{id: '28', label: 'Madrid'}]
+
+  it('getProvinces calls GET /catalogs/provinces', async () => {
+    fetchMock.mockResolvedValue(jsonResponse(items))
+
+    await expect(getProvinces()).resolves.toEqual(items)
+
+    expect(lastRequestUrl().href).toBe(`${API_BASE_URL}/catalogs/provinces`)
+  })
+
+  it('getContractTypes calls GET /catalogs/contract-types', async () => {
+    fetchMock.mockResolvedValue(jsonResponse(items))
+
+    await expect(getContractTypes()).resolves.toEqual(items)
+
+    expect(lastRequestUrl().href).toBe(`${API_BASE_URL}/catalogs/contract-types`)
   })
 })
 
