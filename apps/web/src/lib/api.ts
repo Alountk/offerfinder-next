@@ -1,3 +1,4 @@
+import 'server-only'
 import type {PaginatedOffersDTO} from '@live-coding/mocks-scenarios'
 import {API_BASE_URL} from './config'
 
