@@ -19,7 +19,7 @@ test('opens the first offer from the list and goes back to the list', async ({pa
   await page.goto('/')
 
   const firstOffer = page.getByRole('listitem').first()
-  const summary = await firstOffer.innerText()
+  const summary = (await firstOffer.textContent()) ?? ''
   await firstOffer.getByRole('link').click()
 
   await expect(page).toHaveURL(/\/offers\/of-\d+$/)
