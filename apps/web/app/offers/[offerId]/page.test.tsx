@@ -2,7 +2,7 @@ import {render, screen} from '@testing-library/react'
 import type {OfferDetailDTO} from '@live-coding/mocks-scenarios'
 import {notFound} from 'next/navigation'
 import {ApiError, getOffer} from '@/lib/api'
-import OfferPage from './page'
+import OfferPage, {generateMetadata} from './page'
 
 vi.mock('@/lib/api', async importOriginal => ({
   ...(await importOriginal<typeof import('@/lib/api')>()),
@@ -104,5 +104,30 @@ describe('OfferPage', () => {
     await expect(OfferPage(pageProps())).rejects.toBe(failure)
 
     expect(notFound).not.toHaveBeenCalled()
+  })
+})
+
+describe('generateMetadata', () => {
+  beforeEach(() => {
+    vi.mocked(notFound).mockClear()
+    vi.mocked(getOffer).mockReset()
+    vi.mocked(getOffer).mockResolvedValue(offer)
+  })
+
+  it('uses the offer title and company as the page title and its description as the description', async () => {
+    await expect(generateMetadata(pageProps('of-0007'))).resolves.toEqual({
+      title: 'Frontend Developer · Acme',
+      description: 'Build great interfaces'
+    })
+
+    expect(getOffer).toHaveBeenCalledWith('of-0007')
+  })
+
+  it('renders the not found page when the API answers 404', async () => {
+    vi.mocked(getOffer).mockRejectedValue(new ApiError(404, 'Request failed with status 404'))
+
+    await expect(generateMetadata(pageProps('of-9999'))).rejects.toThrow('NEXT_NOT_FOUND')
+
+    expect(notFound).toHaveBeenCalledTimes(1)
   })
 })

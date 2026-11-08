@@ -39,6 +39,16 @@ function ListSection({id, title, items}: ListSectionProps) {
   )
 }
 
+export async function generateMetadata({params}: OfferPageProps) {
+  const {offerId} = await params
+  const offer = await findOffer(offerId)
+
+  return {
+    title: `${offer.title} · ${offer.companyName}`,
+    description: offer.description
+  }
+}
+
 export default async function OfferPage({params}: OfferPageProps) {
   const {offerId} = await params
   const offer = await findOffer(offerId)
