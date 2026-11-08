@@ -42,14 +42,15 @@ describe('searchOffers', () => {
       province: '28',
       contractType: 'indefinido'
     })
-  })
 
-  it('does not cache the search', async () => {
+  })
+  
+  it('caches the search for a minute', async () => {
     fetchMock.mockResolvedValue(jsonResponse(page))
 
     await searchOffers()
 
-    expect(fetchMock.mock.calls.at(-1)?.[1]).toBeUndefined()
+    expect(fetchMock.mock.calls.at(-1)?.[1]).toEqual({next: {revalidate: 60}})
   })
 })
 

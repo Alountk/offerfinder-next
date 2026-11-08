@@ -2,7 +2,7 @@ import 'server-only'
 import type {CatalogItem, OfferDetailDTO, PaginatedOffersDTO} from '@live-coding/mocks-scenarios'
 import {API_BASE_URL} from './config'
 import {toQueryString} from './queryString'
-import { SearchOffersParams } from '@live-coding/mocks-scenarios/searchOffers'
+import type {SearchOffersParams} from '@live-coding/mocks-scenarios/searchOffers'
 
 export class ApiError extends Error {
   readonly status: number
@@ -14,6 +14,7 @@ export class ApiError extends Error {
   }
 }
 
+const OFFERS_CACHE: RequestInit = {next: {revalidate: 60}}
 const CATALOG_CACHE: RequestInit = {next: {revalidate: 3600}}
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
@@ -23,17 +24,17 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 export function searchOffers(params: SearchOffersParams = {}): Promise<PaginatedOffersDTO> {
-    return request(`/offers${toQueryString({...params})}`)
+  return request(`/offers${toQueryString({...params})}`, OFFERS_CACHE)
 }
 
-export async function getOffer(id: string): Promise<OfferDetailDTO> {
-  return request(`/offers/${encodeURIComponent(id)}`)
+export function getOffer(id: string): Promise<OfferDetailDTO> {
+  return request(`/offers/${encodeURIComponent(id)}`, OFFERS_CACHE)
 }
 
-export async function getProvinces(): Promise<CatalogItem[]> {
+export function getProvinces(): Promise<CatalogItem[]> {
   return request('/catalogs/provinces', CATALOG_CACHE)
 }
 
-export async function getContractTypes(): Promise<CatalogItem[]> {
+export function getContractTypes(): Promise<CatalogItem[]> {
   return request('/catalogs/contract-types', CATALOG_CACHE)
 }
