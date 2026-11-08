@@ -17,16 +17,16 @@ test('searching with every filter updates the URL and the list', async ({page}) 
 
 test('opens the first offer from the list and goes back to the list', async ({page}) => {
   await page.goto('/')
-  
+
   const firstOffer = page.getByRole('listitem').first()
   const summary = (await firstOffer.textContent()) ?? ''
   await firstOffer.getByRole('link').click()
-  
+
   await expect(page).toHaveURL(/\/offers\/of-\d+$/)
   await expect(page.locator('header')).toHaveText(summary)
-  
+
   await page.getByRole('link', {name: 'Volver a las ofertas'}).click()
-  
+
   await expect(page).toHaveURL('/')
   await expect(page.getByRole('heading', {level: 1, name: /ofertas de empleo/i})).toBeVisible()
 })
@@ -46,6 +46,17 @@ test('paginating moves between pages through the URL and changes the offers', as
 
   await expect(page).toHaveURL('/?page=1')
   await expect(firstOfferLink).toHaveAttribute('href', firstPageOffer ?? '')
+})
+
+test('the offer page sets the browser tab title to the offer title and company', async ({page}) => {
+  await page.goto('/')
+
+  const firstOffer = page.getByRole('listitem').first()
+  const title = await firstOffer.getByRole('link').innerText()
+  const company = await firstOffer.locator('p').first().innerText()
+  await firstOffer.getByRole('link').click()
+
+  await expect(page).toHaveTitle(`${title} · ${company}`)
 })
 
 test('devtools lists the mocked endpoints', async ({page}) => {
