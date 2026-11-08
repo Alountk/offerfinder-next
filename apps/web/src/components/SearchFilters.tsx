@@ -1,4 +1,3 @@
-import Form from 'next/form'
 import type {OfferFilters} from '@/lib/searchParams'
 import {CatalogItem} from '@live-coding/mocks-scenarios'
 
@@ -6,6 +5,7 @@ interface SearchFiltersProps {
   provinces: CatalogItem[]
   contractTypes: CatalogItem[]
   values: OfferFilters
+  action: (formData: FormData) => void | Promise<void>
 }
 
 interface CatalogSelectProps {
@@ -32,9 +32,9 @@ function CatalogSelect({label, name, emptyLabel, items, value}: CatalogSelectPro
   )
 }
 
-export function SearchFilters({provinces, contractTypes, values}: SearchFiltersProps) {
+export function SearchFilters({provinces, contractTypes, values, action}: SearchFiltersProps) {
   return (
-    <Form action="/" className="flex flex-wrap items-end gap-4">
+    <form action={action} className="flex flex-wrap items-end gap-4">
       <label className="flex flex-col gap-1 text-sm">
         Texto
         <input
@@ -56,6 +56,6 @@ export function SearchFilters({provinces, contractTypes, values}: SearchFiltersP
       <button type="submit" className="rounded bg-gray-900 px-4 py-1 text-white">
         Buscar
       </button>
-    </Form>
+    </form>
   )
 }
