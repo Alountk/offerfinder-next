@@ -14,8 +14,10 @@ export class ApiError extends Error {
   }
 }
 
-async function request<T>(path: string): Promise<T> {
-  const response = await fetch(`${API_BASE_URL}${path}`)
+const CATALOG_CACHE: RequestInit = {next: {revalidate: 3600}}
+
+async function request<T>(path: string, init?: RequestInit): Promise<T> {
+  const response = await fetch(`${API_BASE_URL}${path}`, init)
   if (!response.ok) throw new ApiError(response.status, `Request failed with status ${response.status}`)
   return (await response.json()) as T
 }
@@ -29,9 +31,9 @@ export async function getOffer(id: string): Promise<OfferDetailDTO> {
 }
 
 export async function getProvinces(): Promise<CatalogItem[]> {
-  return request('/catalogs/provinces')
+  return request('/catalogs/provinces', CATALOG_CACHE)
 }
 
 export async function getContractTypes(): Promise<CatalogItem[]> {
-  return request('/catalogs/contract-types')
+  return request('/catalogs/contract-types', CATALOG_CACHE)
 }

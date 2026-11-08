@@ -43,6 +43,14 @@ describe('searchOffers', () => {
       contractType: 'indefinido'
     })
   })
+
+  it('does not cache the search', async () => {
+    fetchMock.mockResolvedValue(jsonResponse(page))
+
+    await searchOffers()
+
+    expect(fetchMock.mock.calls.at(-1)?.[1]).toBeUndefined()
+  })
 })
 
 describe('getOffer', () => {
@@ -106,6 +114,18 @@ describe('catalogs', () => {
     await expect(getContractTypes()).resolves.toEqual(items)
 
     expect(lastRequestUrl().href).toBe(`${API_BASE_URL}/catalogs/contract-types`)
+  })
+
+  it('caches both catalogs for an hour', async () => {
+    fetchMock.mockImplementation(() => Promise.resolve(jsonResponse(items)))
+
+    await getProvinces()
+    await getContractTypes()
+
+    expect(fetchMock.mock.calls.map(([, init]) => init)).toEqual([
+      {next: {revalidate: 3600}},
+      {next: {revalidate: 3600}}
+    ])
   })
 })
 
