@@ -1,0 +1,13 @@
+.git
+.atl
+.turbo
+docs
+**/node_modules
+**/.next
+**/test-results
+**/playwright-report
+**/*.log
+.env
+.env.*
+!.env.example
+apps/mocks/scenarios-config*.json
