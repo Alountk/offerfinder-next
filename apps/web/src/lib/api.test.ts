@@ -1,5 +1,5 @@
 import type {PaginatedOffersDTO} from '@live-coding/mocks-scenarios'
-import {ApiError, getContractTypes, getProvinces, searchOffers} from './api'
+import {ApiError, getContractTypes, getOffer, getProvinces, searchOffers} from './api'
 import {API_BASE_URL} from './config'
 
 const fetchMock = vi.fn<typeof fetch>()
@@ -42,6 +42,50 @@ describe('searchOffers', () => {
       province: '28',
       contractType: 'indefinido'
     })
+  })
+})
+
+describe('getOffer', () => {
+  const offer: OfferDetailDTO = {
+    id: 'of-0001',
+    title: 'Frontend Developer',
+    companyName: 'Acme',
+    province: {id: 'madrid', label: 'Madrid'},
+    contractType: {id: 'indefinido', label: 'Indefinido'},
+    salary: null,
+    publishedAt: '2026-01-01',
+    description: 'Build things',
+    requirements: ['React'],
+    benefits: ['Remote'],
+    workday: 'Completa',
+    teleworking: 'Híbrido',
+    vacancies: 1
+  }
+
+  it('calls GET /offers/:id and returns the detail', async () => {
+    fetchMock.mockResolvedValue(jsonResponse(offer))
+
+    await expect(getOffer('of-0001')).resolves.toEqual(offer)
+
+    expect(lastRequestUrl().href).toBe(`${API_BASE_URL}/offers/of-0001`)
+  })
+
+  it('encodes the id so it cannot change the requested path or query', async () => {
+    fetchMock.mockResolvedValue(jsonResponse(offer))
+
+    await getOffer('../catalogs/provinces?x=1')
+
+    expect(lastRequestUrl().pathname).toBe(`${new URL(API_BASE_URL).pathname}/offers/..%2Fcatalogs%2Fprovinces%3Fx%3D1`)
+    expect(lastRequestUrl().search).toBe('')
+  })
+
+  it('throws an ApiError with status 404 when the offer does not exist', async () => {
+    fetchMock.mockResolvedValue(jsonResponse({code: 'OfferNotFound', message: 'Offer not found'}, 404))
+
+    const error = await getOffer('of-9999').catch((e: unknown) => e)
+
+    expect(error).toBeInstanceOf(ApiError)
+    expect(error).toMatchObject({status: 404})
   })
 })
 

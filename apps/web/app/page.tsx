@@ -3,6 +3,7 @@ import {SearchFilters} from '@/components/SearchFilters'
 import {getContractTypes, getProvinces, searchOffers} from '@/lib/api'
 import {toQueryString} from '@/lib/queryString'
 import {parseSearchParams, RawSearchParams} from '@/lib/searchParams'
+import Link from 'next/link'
 import {redirect} from 'next/navigation'
 
 interface HomePageProps {
@@ -30,7 +31,11 @@ export default async function HomePage({searchParams}: HomePageProps) {
         <ul className="divide-y rounded border">
           {items.map(offer => (
             <li key={offer.id} className="space-y-1 px-4 py-3">
-              <h2 className="font-semibold">{offer.title}</h2>
+              <h2 className="font-semibold">
+                <Link href={`/offers/${offer.id}`} className="underline">
+                  {offer.title}
+                </Link>
+              </h2>
               <p>{offer.companyName}</p>
               <p className="text-sm text-gray-600">
                 {offer.province.label} · {offer.contractType.label}

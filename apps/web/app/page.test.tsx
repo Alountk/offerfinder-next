@@ -103,4 +103,10 @@ describe('HomePage', () => {
 
     expect(screen.queryByText(/no hay ofertas/i)).not.toBeInTheDocument()
   })
+
+  it('links each offer to its detail page', async () => {
+    await renderPage()
+
+    expect(screen.getByRole('link', {name: 'Desarrollador/a Frontend React'})).toHaveAttribute('href', '/offers/of-0001')
+  })
 })

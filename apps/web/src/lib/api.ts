@@ -1,5 +1,5 @@
 import 'server-only'
-import type {CatalogItem, PaginatedOffersDTO} from '@live-coding/mocks-scenarios'
+import type {CatalogItem, OfferDetailDTO, PaginatedOffersDTO} from '@live-coding/mocks-scenarios'
 import {API_BASE_URL} from './config'
 import {toQueryString} from './queryString'
 import { SearchOffersParams } from '@live-coding/mocks-scenarios/searchOffers'
@@ -22,6 +22,10 @@ async function request<T>(path: string): Promise<T> {
 
 export function searchOffers(params: SearchOffersParams = {}): Promise<PaginatedOffersDTO> {
     return request(`/offers${toQueryString({...params})}`)
+}
+
+export async function getOffer(id: string): Promise<OfferDetailDTO> {
+  return request(`/offers/${encodeURIComponent(id)}`)
 }
 
 export async function getProvinces(): Promise<CatalogItem[]> {
