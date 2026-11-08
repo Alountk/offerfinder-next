@@ -59,6 +59,16 @@ test('the offer page sets the browser tab title to the offer title and company',
   await expect(page).toHaveTitle(`${title} · ${company}`)
 })
 
+test('a search without matches shows the empty message instead of offers', async ({page}) => {
+  await page.goto('/')
+
+  await page.getByRole('searchbox', {name: /texto/i}).fill('zzzz')
+  await page.getByRole('button', {name: 'Buscar'}).click()
+
+  await expect(page.getByText('No hay ofertas que coincidan con tu búsqueda.')).toBeVisible()
+  await expect(page.getByRole('listitem')).toHaveCount(0)
+})
+
 test('devtools lists the mocked endpoints', async ({page}) => {
   await page.goto('/')
 
