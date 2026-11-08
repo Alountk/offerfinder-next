@@ -1,10 +1,34 @@
 import {test, expect} from '@playwright/test'
 
-test('home explains the technical exercise', async ({page}) => {
+test('searching with every filter updates the URL and the list', async ({page}) => {
   await page.goto('/')
 
-  await expect(page.getByRole('heading', {level: 1, name: /buscador de ofertas/i})).toBeVisible()
-  await expect(page.getByText(/arquitectura testeable y mantenible/i)).toBeVisible()
+  await page.getByRole('searchbox', {name: /texto/i}).fill('desarrollador')
+  await page.getByRole('combobox', {name: 'Provincia'}).selectOption({label: 'Madrid'})
+  await page.getByRole('combobox', {name: 'Tipo de contrato'}).selectOption({label: 'Autónomo'})
+  await page.getByRole('button', {name: 'Buscar'}).click()
+
+  await expect(page).toHaveURL('/?q=desarrollador&province=madrid&contractType=autonomo')
+  const offers = page.getByRole('listitem')
+  await expect(offers).not.toHaveCount(0)
+  await expect(offers.filter({hasNotText: /desarrollador/i})).toHaveCount(0)
+  await expect(offers.filter({hasNotText: 'Madrid · Autónomo'})).toHaveCount(0)
+})
+
+test('opens the first offer from the list and goes back to the list', async ({page}) => {
+  await page.goto('/')
+
+  const firstOffer = page.getByRole('listitem').first()
+  const summary = await firstOffer.innerText()
+  await firstOffer.getByRole('link').click()
+
+  await expect(page).toHaveURL(/\/offers\/of-\d+$/)
+  await expect(page.locator('header')).toHaveText(summary)
+
+  await page.getByRole('link', {name: 'Volver a las ofertas'}).click()
+
+  await expect(page).toHaveURL('/')
+  await expect(page.getByRole('heading', {level: 1, name: /ofertas de empleo/i})).toBeVisible()
 })
 
 test('devtools lists the mocked endpoints', async ({page}) => {
