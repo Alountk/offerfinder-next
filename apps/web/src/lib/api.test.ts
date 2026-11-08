@@ -1,4 +1,4 @@
-import type {PaginatedOffersDTO} from '@live-coding/mocks-scenarios'
+import type {OfferDetailDTO, PaginatedOffersDTO} from '@live-coding/mocks-scenarios'
 import {ApiError, getContractTypes, getOffer, getProvinces, searchOffers} from './api'
 import {API_BASE_URL} from './config'
 
