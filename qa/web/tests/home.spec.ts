@@ -69,6 +69,12 @@ test('a search without matches shows the empty message instead of offers', async
   await expect(page.getByRole('listitem')).toHaveCount(0)
 })
 
+test('an offer that does not exist shows the offer not found page', async ({page}) => {
+  await page.goto('/offers/of-9999')
+
+  await expect(page.getByRole('heading', {level: 1, name: 'Oferta no encontrada'})).toBeVisible()
+})
+
 test.describe('on a phone', () => {
   test.use({viewport: {width: 390, height: 800}})
 
