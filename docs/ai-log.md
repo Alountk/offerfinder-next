@@ -578,7 +578,7 @@ dark)`, expuestos con `@theme inline`. `color-scheme: light dark` para los contr
 
 **Tiempo:** 21 min 31s
 
-## Fase 12: esqueletos de carga
+## Fase 11: esqueletos de carga
 
 **Prompt:**
 "Haz los esqueletos de carga"
@@ -637,11 +637,11 @@ dark)`, expuestos con `@theme inline`. `color-scheme: light dark` para los contr
 - [ ] Sin cubrir: las capturas en oscuro y en móvil de los esqueletos nuevos (el caso en frío
       a 390 px no se pudo capturar con la caché caliente); el esqueleto de filtros no copia al
       píxel los campos reales; y qué pasa si se envía una búsqueda mientras otra sigue
-      cargando (no se midió). Los e2e se volvieron a ejecutar en la fase 13 (pasan).
+      cargando (no se midió). Los e2e se volvieron a ejecutar en la fase 12 (pasan).
 
 **Tiempo:** 15 min 11s
 
-## Fase 13: extras de diseño pendientes y campos desincronizados
+## Fase 12: extras de diseño pendientes y campos desincronizados
 
 **Prompt:**
 "Revisa los extras en amarillos a ver cuál podríamos hacer"
