@@ -34,8 +34,8 @@ interface FactProps {
 function Fact({label, highlight = false, children}: FactProps) {
   return (
     <div>
-      <dt className="text-sm text-muted">{label}</dt>
-      <dd className={highlight ? 'text-lg font-semibold' : undefined}>{children}</dd>
+      <dt className="text-label text-muted">{label}</dt>
+      <dd className={highlight ? 'text-lead font-semibold' : undefined}>{children}</dd>
     </div>
   )
 }
@@ -43,7 +43,7 @@ function Fact({label, highlight = false, children}: FactProps) {
 function ListSection({title, items}: ListSectionProps) {
   return (
     <section className="space-y-2 print:break-inside-avoid">
-      <h2 className="text-xl font-semibold">{title}</h2>
+      <h2 className="text-section font-semibold">{title}</h2>
       <ul className="list-disc space-y-1 pl-6">
         {items.map(item => (
           <li key={item}>{item}</li>
@@ -66,15 +66,15 @@ export default async function OfferPage({params}: OfferPageProps) {
 
   return (
     <Page>
-      <Link href="/" className="text-sm underline print:hidden">
+      <Link href="/" className="text-label underline print:hidden">
         Volver a las ofertas
       </Link>
       <header className="space-y-1">
         <PageTitle>{offer.title}</PageTitle>
-        <p className="text-lg">{offer.companyName}</p>
+        <p className="text-lead">{offer.companyName}</p>
         <p className="text-muted">{offer.province.label}</p>
       </header>
-      <dl className="grid grid-cols-2 gap-4 rounded border border-border p-4 sm:grid-cols-3 print:break-inside-avoid">
+      <dl className="grid grid-cols-2 gap-4 rounded border border-border p-gutter sm:grid-cols-3 print:break-inside-avoid">
         {offer.salary && (
           <Fact label="Salario" highlight>
             {offer.salary}
@@ -90,7 +90,7 @@ export default async function OfferPage({params}: OfferPageProps) {
         <Fact label="Vacantes">{offer.vacancies}</Fact>
       </dl>
       <section className="space-y-2 print:break-inside-avoid">
-        <h2 className="text-xl font-semibold">Descripción</h2>
+        <h2 className="text-section font-semibold">Descripción</h2>
         <p>{offer.description}</p>
       </section>
       <ListSection title="Requisitos" items={offer.requirements} />

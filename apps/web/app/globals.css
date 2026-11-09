@@ -12,6 +12,22 @@
   --color-brand: #0b4dd0;
   --color-brand-foreground: #ffffff;
   --font-sans: ui-sans-serif, system-ui, sans-serif;
+
+  --text-title: 1.5rem;
+  --text-title--line-height: calc(2 / 1.5);
+  --text-title-lg: 1.875rem;
+  --text-title-lg--line-height: calc(2.25 / 1.875);
+  --text-section: 1.25rem;
+  --text-section--line-height: calc(1.75 / 1.25);
+  --text-lead: 1.125rem;
+  --text-lead--line-height: calc(1.75 / 1.125);
+  --text-label: 0.875rem;
+  --text-label--line-height: calc(1.25 / 0.875);
+
+  --spacing-gutter: 1rem;
+  --spacing-section: 1.5rem;
+
+  --container-page: 56rem;
 }
 
 :root {

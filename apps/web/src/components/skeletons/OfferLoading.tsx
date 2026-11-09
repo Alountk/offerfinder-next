@@ -3,7 +3,7 @@ import {Skeleton, SkeletonRegion} from './Skeleton'
 export function OfferLoading() {
   return (
     <SkeletonRegion label="Cargando oferta…">
-      <div className="space-y-6">
+      <div className="space-y-section">
         <div className="space-y-2">
           <Skeleton className="h-8 w-3/4" />
           <Skeleton className="h-6 w-1/3" />

@@ -22,14 +22,14 @@ export async function OffersResults({filters}: OffersResultsProps) {
       ) : (
         <ul className="divide-y divide-border rounded border border-border">
           {items.map(offer => (
-            <li key={offer.id} className="space-y-1 px-4 py-3">
+            <li key={offer.id} className="space-y-1 px-gutter py-3">
               <h2 className="font-semibold">
                 <Link href={`/offers/${offer.id}`} className="underline">
                   {offer.title}
                 </Link>
               </h2>
               <p>{offer.companyName}</p>
-              <p className="text-sm text-muted">
+              <p className="text-label text-muted">
                 {offer.province.label} · {offer.contractType.label}
               </p>
             </li>
