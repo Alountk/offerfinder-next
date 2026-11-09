@@ -51,22 +51,18 @@ describe('OfferPage', () => {
     expect(getOffer).toHaveBeenCalledWith('of-0007')
   })
 
-  it('shows the title, company, province and contract type', async () => {
+  it('shows the title, company and province', async () => {
     await renderPage()
 
     expect(screen.getByRole('heading', {level: 1, name: 'Frontend Developer'})).toBeInTheDocument()
     expect(screen.getByText('Acme')).toBeInTheDocument()
-    expect(screen.getByText('Madrid · Indefinido')).toBeInTheDocument()
+    expect(screen.getByText('Madrid')).toBeInTheDocument()
   })
 
-  it('shows the description, workday, teleworking, vacancies and salary', async () => {
+  it('shows the description', async () => {
     await renderPage()
 
     expect(screen.getByText('Build great interfaces')).toBeInTheDocument()
-    expect(screen.getByText('Completa')).toBeInTheDocument()
-    expect(screen.getByText('Híbrido')).toBeInTheDocument()
-    expect(screen.getByText('2')).toBeInTheDocument()
-    expect(screen.getByText('40.000 €')).toBeInTheDocument()
   })
 
   it('shows each key fact under its label', async () => {

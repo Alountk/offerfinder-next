@@ -6,7 +6,7 @@ describe('OfferNotFound', () => {
     render(<OfferNotFound />)
 
     expect(screen.getByRole('heading', {level: 1, name: /oferta no encontrada/i})).toBeInTheDocument()
-    expect(screen.getByText(/ha caducado/i)).toBeInTheDocument()
+    expect(screen.getByText(/haya caducado/i)).toBeInTheDocument()
   })
 
   it('links back to the offers list', () => {
