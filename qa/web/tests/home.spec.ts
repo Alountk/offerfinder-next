@@ -1,4 +1,4 @@
-import {test, expect} from '@playwright/test'
+import {test, expect, type Page} from '@playwright/test'
 
 test('searching with every filter updates the URL and the list', async ({page}) => {
   await page.goto('/')
