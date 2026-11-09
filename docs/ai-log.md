@@ -49,15 +49,15 @@ status y code). Después, en app/page.tsx, un Server Component con una lista sim
 
 **Resultado:**
 api.ts con las cuatro funciones, una clase ApiError, un type guard (isApiErrorDTO)
-y un helper (toApiError) que parsea el cuerpo del error. Además generó [tests /
-otros ficheros: ...] que no había pedido.
+y un helper (toApiError) que parsea el cuerpo del error. Además generó tests /
+otros ficheros que no había pedido.
 
 **Corrección mía:**
 
 - Se extralimitó para un MVP: quité isApiErrorDTO y toApiError y dejé ApiError con
   solo status y message. Parte del exceso vino de mi prompt, que pedía "error tipado
   con status y code"; lo aprendí y acoto más el alcance en las siguientes fases.
-- Eliminé [los tests / ficheros] no solicitados, que añadiré cuando toque la fase de tests.
+- Eliminé los tests / ficheros no solicitados, que añadiré cuando toque la fase de tests.
 
 **Verificación:**
 
