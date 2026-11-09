@@ -1,5 +1,5 @@
-import {FiltersLoading} from '@/components/FiltersLoading'
-import {OffersLoading} from '@/components/OffersLoading'
+import {FiltersLoading} from '@/components/skeletons/FiltersLoading'
+import {OffersLoading} from '@/components/skeletons/OffersLoading'
 import {Page} from '@/components/Page'
 import {PageTitle} from '@/components/PageTitle'
 

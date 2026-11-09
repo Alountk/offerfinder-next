@@ -1,4 +1,4 @@
-import {OfferLoading} from '@/components/OfferLoading'
+import {OfferLoading} from '@/components/skeletons/OfferLoading'
 import {Page} from '@/components/Page'
 
 export default function Loading() {

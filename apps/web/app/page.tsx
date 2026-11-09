@@ -1,5 +1,5 @@
 import {Suspense} from 'react'
-import {OffersLoading} from '@/components/OffersLoading'
+import {OffersLoading} from '@/components/skeletons/OffersLoading'
 import {OffersResults} from '@/components/OffersResults'
 import {SearchFilters} from '@/components/SearchFilters'
 import {applyFilters} from '@/lib/applyFilters'
