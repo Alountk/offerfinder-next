@@ -1,5 +1,5 @@
-import Link from 'next/link'
 import type {OfferFilters} from '@/lib/searchParams'
+import {ButtonLink} from './ButtonLink'
 
 interface PaginationProps {
   page: number
@@ -13,21 +13,21 @@ export function Pagination({page, totalPages, filters}: PaginationProps) {
   const hrefTo = (target: number) => ({pathname: '/', query: {...filters, page: target}})
 
   return (
-    <nav aria-label="Paginación" className="flex items-center justify-between">
+    <nav aria-label="Paginación" className="flex flex-wrap items-center justify-between gap-2">
       {page > 1 ? (
-        <Link href={hrefTo(page - 1)} className="underline">
+        <ButtonLink href={hrefTo(page - 1)} variant="secondary">
           Anterior
-        </Link>
+        </ButtonLink>
       ) : (
         <span />
       )}
-      <p>
+      <p className="whitespace-nowrap">
         Página {page} de {totalPages}
       </p>
       {page < totalPages ? (
-        <Link href={hrefTo(page + 1)} className="underline">
+        <ButtonLink href={hrefTo(page + 1)} variant="secondary">
           Siguiente
-        </Link>
+        </ButtonLink>
       ) : (
         <span />
       )}
