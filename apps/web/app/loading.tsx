@@ -1,9 +1,10 @@
 import {OffersLoading} from '@/components/OffersLoading'
+import {Page} from '@/components/Page'
 
 export default function Loading() {
   return (
-    <main className="mx-auto max-w-4xl px-6 py-12">
+    <Page>
       <OffersLoading />
-    </main>
+    </Page>
   )
 }

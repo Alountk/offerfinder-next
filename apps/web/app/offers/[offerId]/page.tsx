@@ -1,14 +1,15 @@
-import {ApiError, getOffer} from '@/lib/api'
-import {OfferDetailDTO} from '@live-coding/mocks-scenarios'
+import type {Metadata} from 'next'
 import Link from 'next/link'
 import {notFound} from 'next/navigation'
+import type {OfferDetailDTO} from '@live-coding/mocks-scenarios'
+import {ApiError, getOffer} from '@/lib/api'
+import {Page} from '@/components/Page'
 
 interface OfferPageProps {
   params: Promise<{offerId: string}>
 }
 
 interface ListSectionProps {
-  id: string
   title: string
   items: string[]
 }
@@ -22,14 +23,10 @@ async function findOffer(offerId: string): Promise<OfferDetailDTO> {
   }
 }
 
-function ListSection({id, title, items}: ListSectionProps) {
-  if (items.length === 0) return null
-
+function ListSection({title, items}: ListSectionProps) {
   return (
-    <section aria-labelledby={id} className="space-y-2">
-      <h2 id={id} className="text-xl font-semibold">
-        {title}
-      </h2>
+    <section className="space-y-2">
+      <h2 className="text-xl font-semibold">{title}</h2>
       <ul className="list-disc space-y-1 pl-6">
         {items.map(item => (
           <li key={item}>{item}</li>
@@ -39,14 +36,11 @@ function ListSection({id, title, items}: ListSectionProps) {
   )
 }
 
-export async function generateMetadata({params}: OfferPageProps) {
+export async function generateMetadata({params}: OfferPageProps): Promise<Metadata> {
   const {offerId} = await params
   const offer = await findOffer(offerId)
 
-  return {
-    title: `${offer.title} · ${offer.companyName}`,
-    description: offer.description
-  }
+  return {title: `${offer.title} · ${offer.companyName}`, description: offer.description}
 }
 
 export default async function OfferPage({params}: OfferPageProps) {
@@ -54,7 +48,7 @@ export default async function OfferPage({params}: OfferPageProps) {
   const offer = await findOffer(offerId)
 
   return (
-    <main className="mx-auto max-w-4xl space-y-6 px-6 py-12">
+    <Page>
       <Link href="/" className="text-sm underline">
         Volver a las ofertas
       </Link>
@@ -89,8 +83,8 @@ export default async function OfferPage({params}: OfferPageProps) {
         <h2 className="text-xl font-semibold">Descripción</h2>
         <p>{offer.description}</p>
       </section>
-      <ListSection id="requirements" title="Requisitos" items={offer.requirements} />
-      <ListSection id="benefits" title="Beneficios" items={offer.benefits} />
-    </main>
+      <ListSection title="Requisitos" items={offer.requirements} />
+      <ListSection title="Beneficios" items={offer.benefits} />
+    </Page>
   )
 }
