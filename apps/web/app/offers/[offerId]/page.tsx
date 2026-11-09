@@ -61,26 +61,26 @@ export default async function OfferPage({params}: OfferPageProps) {
       <header className="space-y-1">
         <h1 className="text-3xl font-bold">{offer.title}</h1>
         <p>{offer.companyName}</p>
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-muted">
           {offer.province.label} · {offer.contractType.label}
         </p>
       </header>
       <dl className="grid grid-cols-2 gap-2 text-sm sm:grid-cols-4">
         <div>
-          <dt className="text-gray-600">Jornada</dt>
+          <dt className="text-muted">Jornada</dt>
           <dd>{offer.workday}</dd>
         </div>
         <div>
-          <dt className="text-gray-600">Teletrabajo</dt>
+          <dt className="text-muted">Teletrabajo</dt>
           <dd>{offer.teleworking}</dd>
         </div>
         <div>
-          <dt className="text-gray-600">Vacantes</dt>
+          <dt className="text-muted">Vacantes</dt>
           <dd>{offer.vacancies}</dd>
         </div>
         {offer.salary && (
           <div>
-            <dt className="text-gray-600">Salario</dt>
+            <dt className="text-muted">Salario</dt>
             <dd>{offer.salary}</dd>
           </div>
         )}

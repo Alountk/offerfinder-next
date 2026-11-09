@@ -20,7 +20,7 @@ export async function OffersResults({filters}: OffersResultsProps) {
       {items.length === 0 ? (
         <p>No hay ofertas que coincidan con tu búsqueda.</p>
       ) : (
-        <ul className="divide-y rounded border">
+        <ul className="divide-y divide-border rounded border border-border">
           {items.map(offer => (
             <li key={offer.id} className="space-y-1 px-4 py-3">
               <h2 className="font-semibold">
@@ -29,7 +29,7 @@ export async function OffersResults({filters}: OffersResultsProps) {
                 </Link>
               </h2>
               <p>{offer.companyName}</p>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-muted">
                 {offer.province.label} · {offer.contractType.label}
               </p>
             </li>

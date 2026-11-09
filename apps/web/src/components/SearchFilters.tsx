@@ -20,7 +20,7 @@ function CatalogSelect({label, name, emptyLabel, items, value}: CatalogSelectPro
   return (
     <label className="flex flex-col gap-1 text-sm">
       {label}
-      <select name={name} defaultValue={value ?? ''} className="rounded border px-2 py-1">
+      <select name={name} defaultValue={value ?? ''} className="rounded border border-border px-2 py-1">
         <option value="">{emptyLabel}</option>
         {items.map(item => (
           <option key={item.id} value={item.id}>
@@ -42,7 +42,7 @@ export function SearchFilters({provinces, contractTypes, values, action}: Search
           name="q"
           defaultValue={values.q ?? ''}
           placeholder="Título o empresa"
-          className="rounded border px-2 py-1"
+          className="rounded border border-border px-2 py-1"
         />
       </label>
       <CatalogSelect label="Provincia" name="province" emptyLabel="Todas" items={provinces} value={values.province} />
@@ -53,7 +53,7 @@ export function SearchFilters({provinces, contractTypes, values, action}: Search
         items={contractTypes}
         value={values.contractType}
       />
-      <button type="submit" className="rounded bg-gray-900 px-4 py-1 text-white">
+      <button type="submit" className="rounded bg-brand px-4 py-1 text-brand-foreground">
         Buscar
       </button>
     </form>
