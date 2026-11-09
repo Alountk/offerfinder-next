@@ -1,5 +1,7 @@
+import type {CatalogItem} from '@live-coding/mocks-scenarios'
 import type {OfferFilters} from '@/lib/searchParams'
-import {CatalogItem} from '@live-coding/mocks-scenarios'
+import {Button} from './Button'
+import {Field, Input, Select} from './Field'
 
 interface SearchFiltersProps {
   provinces: CatalogItem[]
@@ -18,33 +20,25 @@ interface CatalogSelectProps {
 
 function CatalogSelect({label, name, emptyLabel, items, value}: CatalogSelectProps) {
   return (
-    <label className="flex flex-col gap-1 text-sm">
-      {label}
-      <select name={name} defaultValue={value ?? ''} className="rounded border border-border px-2 py-1">
+    <Field label={label}>
+      <Select name={name} defaultValue={value ?? ''}>
         <option value="">{emptyLabel}</option>
         {items.map(item => (
           <option key={item.id} value={item.id}>
             {item.label}
           </option>
         ))}
-      </select>
-    </label>
+      </Select>
+    </Field>
   )
 }
 
 export function SearchFilters({provinces, contractTypes, values, action}: SearchFiltersProps) {
   return (
     <form action={action} className="flex flex-wrap items-end gap-4">
-      <label className="flex flex-col gap-1 text-sm">
-        Texto
-        <input
-          type="search"
-          name="q"
-          defaultValue={values.q ?? ''}
-          placeholder="Título o empresa"
-          className="rounded border border-border px-2 py-1"
-        />
-      </label>
+      <Field label="Texto">
+        <Input type="search" name="q" defaultValue={values.q ?? ''} placeholder="Título o empresa" />
+      </Field>
       <CatalogSelect label="Provincia" name="province" emptyLabel="Todas" items={provinces} value={values.province} />
       <CatalogSelect
         label="Tipo de contrato"
@@ -53,9 +47,7 @@ export function SearchFilters({provinces, contractTypes, values, action}: Search
         items={contractTypes}
         value={values.contractType}
       />
-      <button type="submit" className="rounded bg-brand px-4 py-1 text-brand-foreground">
-        Buscar
-      </button>
+      <Button type="submit">Buscar</Button>
     </form>
   )
 }
