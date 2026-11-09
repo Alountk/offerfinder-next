@@ -126,6 +126,80 @@ test.describe('on a phone', () => {
   })
 })
 
+async function searchWithoutMatches(page: Page) {
+  await page.goto('/')
+  await page.getByRole('searchbox', {name: /texto/i}).fill('zzzz')
+  await page.getByRole('combobox', {name: 'Provincia'}).selectOption({label: 'Madrid'})
+  await page.getByRole('combobox', {name: 'Tipo de contrato'}).selectOption({label: 'Autónomo'})
+  await page.getByRole('button', {name: 'Buscar'}).click()
+  await expect(page.getByText('No hay ofertas que coincidan con tu búsqueda.')).toBeVisible()
+}
+
+test('clearing the filters from the empty message also empties the text field', async ({page}) => {
+  await searchWithoutMatches(page)
+
+  await page.getByRole('link', {name: 'Quitar filtros'}).click()
+
+  await expect(page).toHaveURL('/')
+  await expect(page.getByRole('searchbox', {name: /texto/i})).toHaveValue('')
+})
+
+test('clearing the filters from the empty message also resets the selects', async ({page}) => {
+  await searchWithoutMatches(page)
+
+  await page.getByRole('link', {name: 'Quitar filtros'}).click()
+
+  await expect(page).toHaveURL('/')
+  await expect(page.getByRole('combobox', {name: 'Provincia'})).toHaveValue('')
+  await expect(page.getByRole('combobox', {name: 'Tipo de contrato'})).toHaveValue('')
+})
+
+test('going back to a previous search restores its text in the field', async ({page}) => {
+  await page.goto('/')
+  await page.getByRole('searchbox', {name: /texto/i}).fill('desarrollador')
+  await page.getByRole('button', {name: 'Buscar'}).click()
+  await expect(page).toHaveURL(/[?&]q=desarrollador(&|$)/)
+  await page.getByRole('searchbox', {name: /texto/i}).fill('zzzz')
+  await page.getByRole('button', {name: 'Buscar'}).click()
+  await expect(page).toHaveURL(/[?&]q=zzzz(&|$)/)
+
+  await page.goBack()
+
+  await expect(page).toHaveURL(/[?&]q=desarrollador(&|$)/)
+  await expect(page.getByRole('searchbox', {name: /texto/i})).toHaveValue('desarrollador')
+})
+
+for (const [field, param, first, second] of [
+  ['Provincia', 'province', {label: 'Madrid', id: 'madrid'}, {label: 'Sevilla', id: 'sevilla'}],
+  ['Tipo de contrato', 'contractType', {label: 'Indefinido', id: 'indefinido'}, {label: 'Temporal', id: 'temporal'}]
+] as const) {
+  test(`going back to a previous search restores its ${field.toLowerCase()} in the field`, async ({page}) => {
+    await page.goto('/')
+    const select = page.getByRole('combobox', {name: field})
+    await select.selectOption({label: first.label})
+    await page.getByRole('button', {name: 'Buscar'}).click()
+    await expect(page).toHaveURL(new RegExp(`[?&]${param}=${first.id}(&|$)`))
+    await select.selectOption({label: second.label})
+    await page.getByRole('button', {name: 'Buscar'}).click()
+    await expect(page).toHaveURL(new RegExp(`[?&]${param}=${second.id}(&|$)`))
+
+    await page.goBack()
+
+    await expect(page).toHaveURL(new RegExp(`[?&]${param}=${first.id}(&|$)`))
+    await expect(select).toHaveValue(first.id)
+  })
+}
+
+test('paginating keeps the text typed in the field but not searched yet', async ({page}) => {
+  await page.goto('/')
+  await page.getByRole('searchbox', {name: /texto/i}).fill('pendiente')
+
+  await page.getByRole('link', {name: 'Siguiente'}).click()
+
+  await expect(page).toHaveURL('/?page=2')
+  await expect(page.getByRole('searchbox', {name: /texto/i})).toHaveValue('pendiente')
+})
+
 test('devtools lists the mocked endpoints', async ({page}) => {
   await page.goto('/')
 

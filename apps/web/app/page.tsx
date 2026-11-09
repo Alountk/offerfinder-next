@@ -19,7 +19,13 @@ export default async function HomePage({searchParams}: HomePageProps) {
   return (
     <Page>
       <PageTitle>Ofertas de empleo</PageTitle>
-      <SearchFilters provinces={provinces} contractTypes={contractTypes} values={filters} action={applyFilters} />
+      <SearchFilters
+        key={JSON.stringify([filters.q, filters.province, filters.contractType])}
+        provinces={provinces}
+        contractTypes={contractTypes}
+        values={filters}
+        action={applyFilters}
+      />
       <Suspense key={JSON.stringify(filters)} fallback={<OffersLoading />}>
         <OffersResults filters={filters} />
       </Suspense>

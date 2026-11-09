@@ -1,9 +1,10 @@
-import type {Route} from 'next'
-import Link from 'next/link'
-import {redirect} from 'next/navigation'
 import {searchOffers} from '@/lib/api'
 import {toQueryString} from '@/lib/queryString'
 import type {OfferFilters} from '@/lib/searchParams'
+import type {Route} from 'next'
+import Link from 'next/link'
+import {redirect} from 'next/navigation'
+import {EmptyResults} from './EmptyResults'
 import {Pagination} from './Pagination'
 
 interface OffersResultsProps {
@@ -18,7 +19,7 @@ export async function OffersResults({filters}: OffersResultsProps) {
   return (
     <>
       {items.length === 0 ? (
-        <p>No hay ofertas que coincidan con tu búsqueda.</p>
+        <EmptyResults filters={filters} />
       ) : (
         <ul className="divide-y divide-border rounded border border-border">
           {items.map(offer => (
