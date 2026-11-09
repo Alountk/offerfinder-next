@@ -1,7 +1,7 @@
 import type {ComponentProps} from 'react'
 
 const BUTTON_CLASSES =
-  'rounded bg-brand px-4 py-1 text-brand-foreground enabled:hover:bg-brand/85 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus disabled:cursor-not-allowed disabled:opacity-50'
+  'rounded bg-brand px-4 py-1 text-brand-foreground enabled:hover:bg-brand/85 motion-safe:transition-[background-color,border-color] disabled:cursor-not-allowed disabled:opacity-50'
 
 type ButtonProps = Omit<ComponentProps<'button'>, 'className'>
 

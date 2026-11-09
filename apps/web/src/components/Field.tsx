@@ -1,7 +1,7 @@
 import type {ComponentProps, ReactNode} from 'react'
 
 const CONTROL_CLASSES =
-  'rounded border border-border bg-background px-2 py-1 enabled:not-aria-invalid:hover:border-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus aria-invalid:border-danger disabled:cursor-not-allowed disabled:opacity-50'
+  'rounded border border-input bg-background placeholder:text-muted px-2 py-1 enabled:not-aria-invalid:hover:border-foreground motion-safe:transition-[background-color,border-color] aria-invalid:border-danger disabled:cursor-not-allowed disabled:opacity-50'
 
 interface FieldProps {
   label: string

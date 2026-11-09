@@ -78,6 +78,29 @@ test('an offer that does not exist shows the offer not found page', async ({page
   await expect(page.getByRole('heading', {level: 1, name: 'Oferta no encontrada'})).toBeVisible()
 })
 
+test('the search can be done with the keyboard alone', async ({page}) => {
+  await page.goto('/')
+  await expect(page.getByRole('searchbox', {name: /texto/i})).toBeVisible()
+
+  await page.keyboard.press('Tab')
+  await page.keyboard.type('desarrollador')
+  await page.keyboard.press('Enter')
+
+  await expect(page).toHaveURL('/?q=desarrollador')
+})
+
+test('the control focused with the keyboard shows a visible outline', async ({page}) => {
+  await page.goto('/')
+  const search = page.getByRole('searchbox', {name: /texto/i})
+  await expect(search).toBeVisible()
+
+  await page.keyboard.press('Tab')
+
+  await expect(search).toBeFocused()
+  await expect(search).toHaveCSS('outline-style', 'solid')
+  await expect(search).toHaveCSS('outline-width', '2px')
+})
+
 test.describe('on a phone', () => {
   test.use({viewport: {width: 390, height: 800}})
 

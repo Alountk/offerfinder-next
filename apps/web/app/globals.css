@@ -20,6 +20,7 @@
   --foreground: #111827;
   --muted: #4b5563;
   --border: #d1d5db;
+  --input: #6b7280;
   --danger: #b91c1c;
   --focus: #0b4dd0;
 }
@@ -40,6 +41,12 @@
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-border: var(--border);
+  --color-input: var(--input);
   --color-danger: var(--danger);
   --color-focus: var(--focus);
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
 }
