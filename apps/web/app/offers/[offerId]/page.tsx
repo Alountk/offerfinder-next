@@ -1,9 +1,11 @@
 import type {Metadata} from 'next'
+import type {ReactNode} from 'react'
 import Link from 'next/link'
 import {notFound} from 'next/navigation'
 import type {OfferDetailDTO} from '@live-coding/mocks-scenarios'
 import {ApiError, getOffer} from '@/lib/api'
 import {Page} from '@/components/Page'
+import {PageTitle} from '@/components/PageTitle'
 
 interface OfferPageProps {
   params: Promise<{offerId: string}>
@@ -23,9 +25,24 @@ async function findOffer(offerId: string): Promise<OfferDetailDTO> {
   }
 }
 
+interface FactProps {
+  label: string
+  highlight?: boolean
+  children: ReactNode
+}
+
+function Fact({label, highlight = false, children}: FactProps) {
+  return (
+    <div>
+      <dt className="text-sm text-muted">{label}</dt>
+      <dd className={highlight ? 'text-lg font-semibold' : undefined}>{children}</dd>
+    </div>
+  )
+}
+
 function ListSection({title, items}: ListSectionProps) {
   return (
-    <section className="space-y-2">
+    <section className="space-y-2 print:break-inside-avoid">
       <h2 className="text-xl font-semibold">{title}</h2>
       <ul className="list-disc space-y-1 pl-6">
         {items.map(item => (
@@ -49,37 +66,30 @@ export default async function OfferPage({params}: OfferPageProps) {
 
   return (
     <Page>
-      <Link href="/" className="text-sm underline">
+      <Link href="/" className="text-sm underline print:hidden">
         Volver a las ofertas
       </Link>
       <header className="space-y-1">
-        <h1 className="text-3xl font-bold">{offer.title}</h1>
-        <p>{offer.companyName}</p>
-        <p className="text-sm text-muted">
-          {offer.province.label} · {offer.contractType.label}
-        </p>
+        <PageTitle>{offer.title}</PageTitle>
+        <p className="text-lg">{offer.companyName}</p>
+        <p className="text-muted">{offer.province.label}</p>
       </header>
-      <dl className="grid grid-cols-2 gap-2 text-sm sm:grid-cols-4">
-        <div>
-          <dt className="text-muted">Jornada</dt>
-          <dd>{offer.workday}</dd>
-        </div>
-        <div>
-          <dt className="text-muted">Teletrabajo</dt>
-          <dd>{offer.teleworking}</dd>
-        </div>
-        <div>
-          <dt className="text-muted">Vacantes</dt>
-          <dd>{offer.vacancies}</dd>
-        </div>
+      <dl className="grid grid-cols-2 gap-4 rounded border border-border p-4 sm:grid-cols-3 print:break-inside-avoid">
         {offer.salary && (
-          <div>
-            <dt className="text-muted">Salario</dt>
-            <dd>{offer.salary}</dd>
-          </div>
+          <Fact label="Salario" highlight>
+            {offer.salary}
+          </Fact>
         )}
+        <Fact label="Contrato" highlight>
+          {offer.contractType.label}
+        </Fact>
+        <Fact label="Teletrabajo" highlight>
+          {offer.teleworking}
+        </Fact>
+        <Fact label="Jornada">{offer.workday}</Fact>
+        <Fact label="Vacantes">{offer.vacancies}</Fact>
       </dl>
-      <section className="space-y-2">
+      <section className="space-y-2 print:break-inside-avoid">
         <h2 className="text-xl font-semibold">Descripción</h2>
         <p>{offer.description}</p>
       </section>

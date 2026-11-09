@@ -20,14 +20,18 @@
   --foreground: #111827;
   --muted: #4b5563;
   --border: #d1d5db;
+  --danger: #b91c1c;
+  --focus: #0b4dd0;
 }
 
-@media (prefers-color-scheme: dark) {
+@media screen and (prefers-color-scheme: dark) {
   :root {
     --background: #0f1115;
     --foreground: #f3f4f6;
     --muted: #a1a8b3;
     --border: #374151;
+    --danger: #f87171;
+    --focus: #7aa2ff;
   }
 }
 
@@ -36,4 +40,6 @@
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-border: var(--border);
+  --color-danger: var(--danger);
+  --color-focus: var(--focus);
 }

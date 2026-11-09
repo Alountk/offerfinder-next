@@ -6,6 +6,7 @@ import {applyFilters} from '@/lib/applyFilters'
 import {getContractTypes, getProvinces} from '@/lib/api'
 import {parseSearchParams, type RawSearchParams} from '@/lib/searchParams'
 import {Page} from '@/components/Page'
+import {PageTitle} from '@/components/PageTitle'
 
 interface HomePageProps {
   searchParams: Promise<RawSearchParams>
@@ -17,7 +18,7 @@ export default async function HomePage({searchParams}: HomePageProps) {
 
   return (
     <Page>
-      <h1 className="text-3xl font-bold">Ofertas de empleo</h1>
+      <PageTitle>Ofertas de empleo</PageTitle>
       <SearchFilters provinces={provinces} contractTypes={contractTypes} values={filters} action={applyFilters} />
       <Suspense key={JSON.stringify(filters)} fallback={<OffersLoading />}>
         <OffersResults filters={filters} />

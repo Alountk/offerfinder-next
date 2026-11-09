@@ -69,6 +69,25 @@ describe('OfferPage', () => {
     expect(screen.getByText('40.000 €')).toBeInTheDocument()
   })
 
+  it('shows each key fact under its label', async () => {
+    await renderPage()
+
+    expect(screen.getAllByRole('term').map(term => term.textContent)).toEqual([
+      'Salario',
+      'Contrato',
+      'Teletrabajo',
+      'Jornada',
+      'Vacantes'
+    ])
+    expect(screen.getAllByRole('definition').map(definition => definition.textContent)).toEqual([
+      '40.000 €',
+      'Indefinido',
+      'Híbrido',
+      'Completa',
+      '2'
+    ])
+  })
+
   it('omits the salary when the offer does not state it', async () => {
     vi.mocked(getOffer).mockResolvedValue({...offer, salary: null})
 

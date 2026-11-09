@@ -19,11 +19,14 @@ test('opens the first offer from the list and goes back to the list', async ({pa
   await page.goto('/')
 
   const firstOffer = page.getByRole('listitem').first()
-  const summary = (await firstOffer.textContent()) ?? ''
+  const title = (await firstOffer.getByRole('heading').textContent()) ?? ''
+  const company = (await firstOffer.locator('p').nth(0).textContent()) ?? ''
+  const [province = '', contract = ''] = ((await firstOffer.locator('p').nth(1).textContent()) ?? '').split(' · ')
   await firstOffer.getByRole('link').click()
 
   await expect(page).toHaveURL(/\/offers\/of-\d+$/)
-  await expect(page.locator('header')).toHaveText(summary)
+  await expect(page.locator('header')).toHaveText(title + company + province)
+  await expect(page.locator('dl')).toContainText(contract)
 
   await page.getByRole('link', {name: 'Volver a las ofertas'}).click()
 
