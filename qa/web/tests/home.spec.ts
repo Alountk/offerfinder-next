@@ -69,6 +69,31 @@ test('a search without matches shows the empty message instead of offers', async
   await expect(page.getByRole('listitem')).toHaveCount(0)
 })
 
+test.describe('on a phone', () => {
+  test.use({viewport: {width: 390, height: 800}})
+
+  test('the filters start collapsed and open from the Filtros summary', async ({page}) => {
+    await page.goto('/')
+    const search = page.getByRole('searchbox', {name: /texto/i})
+    await expect(search).toBeHidden()
+
+    await page.getByText('Filtros', {exact: true}).click()
+
+    await expect(search).toBeVisible()
+  })
+
+  test('searching collapses the filters again so the results are visible', async ({page}) => {
+    await page.goto('/')
+    await page.getByText('Filtros', {exact: true}).click()
+    await page.getByRole('searchbox', {name: /texto/i}).fill('desarrollador')
+    await page.getByRole('button', {name: 'Buscar'}).click()
+
+    await expect(page).toHaveURL('/?q=desarrollador')
+    await expect(page.getByRole('searchbox', {name: /texto/i})).toBeHidden()
+    await expect(page.getByRole('listitem').first()).toBeVisible()
+  })
+})
+
 test('devtools lists the mocked endpoints', async ({page}) => {
   await page.goto('/')
 
